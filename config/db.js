@@ -1,15 +1,17 @@
 const mongoose = require('mongoose')
 const config = require('config')
 const Booking = require('../Models/BookingSchema')
-const db = config.get('mongoURI')
+// const db = config.get('mongoURI')
+const db = 'mongodb://mongo:27017/hotel_api_test'
+const option = { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useFindAndModify: false
+}
 
 const connectDB = async ()=> {
     try {
-        await mongoose.connect(db, { 
-            useNewUrlParser: true, 
-            useUnifiedTopology: true,
-            useFindAndModify: false
-        });
+        await mongoose.connect(db, option);
         console.log('mongodb connected ...')
     } catch(err) {
         console.error(err.message)

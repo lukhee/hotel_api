@@ -2,7 +2,7 @@ let mongoose = require("mongoose");
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let router = require('../Routes/packageRoute');
+let router = require('../app');
 let should = chai.should();
 let Package = require('../Models/PackageSchema')
 
@@ -10,11 +10,7 @@ chai.use(chaiHttp);
 
 describe('Package', () => {
     before((done) => { //Before test we setUp a testing database
-        mongoose.connect("mongodb+srv://balogun:Balogun007.@hotel-api-blrc9.mongodb.net/test-try?retryWrites=true&w=majority", { 
-            useNewUrlParser: true, 
-            useUnifiedTopology: true,
-            useFindAndModify: false
-        })    
+        mongoose.connect('mongodb://mongo:27017/hotel_api_testing',)    
         .then(result=> {
             console.log("connected");
             done()
@@ -29,7 +25,7 @@ describe('Package', () => {
 
     describe('/POST package', () => {
         it('it should create a new package', (done) => {
-            let package ={
+            let package = {
                 "type": "Standard Double Room",
                 "genders": "male and female",
                 "no_of_beds": "2",
@@ -37,14 +33,13 @@ describe('Package', () => {
             }
 
         chai.request(router)
-            .post('/')
+            .post('/api/package')
             .send(package)
             .end((err, res) => {
                 console.log(res)
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                res.body.should.have.property('errors');
-                res.body.errors.should.have.property('type');
+                res.body.should.have.property('cost');
             done();
             });
         });
@@ -53,7 +48,7 @@ describe('Package', () => {
         describe('/GET packages', () => {
             it('it should GET all the package', (done) => {
                 chai.request(router)
-                    .get('/')
+                    .get('/api/package')
                     .end((err, res) => {
                         res.should.have.status(200);
                         res.body.should.be.a('array');
@@ -71,13 +66,13 @@ describe('Package', () => {
                         "no_of_beds": "4",
                         "cost": 80000
                     })
-                    book.save((err, package) => {
+                    package.save((err, package) => {
                         chai.request(router)
-                            .delete('/book/' + package.id)
+                            .delete('/api/package/' + package.id)
                             .end((err, res) => {
                                 res.should.have.status(200);
                                 res.body.should.be.a('object');
-                                res.body.should.have.property('msg').eql('"Package deleted successfully"');
+                                res.body.should.have.property('msg').eql("Package deleted successfully");
                             done();
                         });
                     });

@@ -37,6 +37,8 @@ app.use('*', (req, res, next)=> {
 app.use(helmet());
 app.use(compression())
 
+console.log(__dirname)
+
 const PORT = process.env.PORT || 3040
 
 http.listen(PORT, ()=> console.log(`app listen at port ${PORT}`)) 
@@ -50,22 +52,4 @@ io.on('connection', function(socket){
     })
 })
 
-// WebSocket connection failed but will look into in later
-
-// const wss = new websocketServer({port: http})
-// wss.on('connnection', function(ws) {
-    
-//     console.log('client connnected')
-//     ws.on('message', function(message) {
-//         console.log('Received: ' +message)
-//         wss.clients.forEach((client)=>{
-//             if(client != ws) client.send(message)
-//         })
-//     })
-//     ws.send('hey i am from the server')
-    
-//     ws.on('close', function(){
-//         console.log('i lost a client')
-//     })
-//     console.log('client connected')
-// })
+module.exports = app
