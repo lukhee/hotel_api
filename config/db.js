@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const config = require('config')
 const Booking = require('../Models/BookingSchema')
 // const db = config.get('mongoURI')
-const db = 'mongodb://mongo:27017/hotel_api_test'
+const db = 'mongodb://localhost:27017/hotel_api_test'
 const option = { 
     useNewUrlParser: true, 
     useUnifiedTopology: true,

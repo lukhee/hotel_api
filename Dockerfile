@@ -12,4 +12,4 @@ EXPOSE 3040
 
 RUN npm install -g nodemon
 
-CDM [ "npm", "start" ]
+CMD [ "npm", "start" ]
